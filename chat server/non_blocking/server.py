@@ -25,7 +25,3 @@ while True:
     # Send a message back to the client
     server_message = input("You: ")  # Input message from the server user
     conn.send(bytes(server_message, 'utf-8'))  # Send the server's message to the client
-    
-# Close the connection
-conn.close()
-print("Connection closed.")

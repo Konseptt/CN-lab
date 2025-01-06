@@ -17,7 +17,4 @@ while True:
     # Receive a message from the server
     server_message = client_socket.recv(1024).decode()  
     print("Server:", server_message)  # Display the server's message
-    
-# Close the connection
-client_socket.close()
-print("Connection closed.")
+
