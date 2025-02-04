@@ -3,7 +3,7 @@ import socket
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print("Socket created")
 
-s.bind(('192.168.56.1', 8080))
+s.bind(('0.0.0.0', 8080))
 
 s.listen(5)
 print("Waiting for connection")
