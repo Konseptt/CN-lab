@@ -1,3 +1,4 @@
+# server.py
 import socket
 
 # Define server IP and port
@@ -32,4 +33,5 @@ while True:
         print("File not found error sent to client.")
 
     conn.close()
-    print("Connection closed. Waiting for the next client...")
+    print("Connection closed.")
+    break
