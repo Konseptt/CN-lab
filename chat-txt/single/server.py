@@ -1,41 +1,35 @@
-# server.py
 import socket
 
-# Create a socket object for the server
+# Define server IP and port
+HOST = '192.168.56.1'  # Change to your local IP if needed
+PORT = 55
+
+# Create a socket
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-print("Socket created")
+server_socket.bind((HOST, PORT))
+server_socket.listen(1)  # Accept one client at a time
 
-# Bind the socket to the specific IP address and port 55
-server_socket.bind(('192.168.56.1', 55))
-print("Socket bound to IP 192.168.56.1 and port 55")
+print(f"Server listening on {HOST}:{PORT}")
 
-# Start listening for incoming connections, with a maximum queue of 5
-server_socket.listen(5)
-print("Waiting for connection")
+while True:
+    print("Waiting for a client connection...")
+    conn, addr = server_socket.accept()
+    print(f"Connected to {addr}")
 
-# Accept a connection from a client
-conn, addr = server_socket.accept()
-print("Connected with", addr)
+    # Receive file request
+    file_request = conn.recv(1024).decode()
+    print(f"Client requested file: {file_request}")
 
-# Receive the client's request for a file
-client_message = conn.recv(1024).decode()
-print("Client requested:", client_message)
+    try:
+        # Read and send file data
+        with open(file_request, "r") as file:
+            file_data = file.read()
+        conn.sendall(file_data.encode())
+        print("File sent successfully.")
+    except FileNotFoundError:
+        error_message = "Error: File not found"
+        conn.sendall(error_message.encode())
+        print("File not found error sent to client.")
 
-try:
-    # Open and read the requested file
-    with open(client_message, 'r') as file:
-        file_data = file.read()
-
-    # Send the file content to the client
-    conn.send(bytes(file_data, 'utf-8'))
-    print("File sent successfully")
-except FileNotFoundError:
-    # If the file is not found, send an error message
-    error_message = "Error: File not found"
-    conn.send(bytes(error_message, 'utf-8'))
-    print("File not found error sent to client")
-
-# Close the connection
-conn.close()
-server_socket.close()
-print("Connection closed")
+    conn.close()
+    print("Connection closed. Waiting for the next client...")
