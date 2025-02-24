@@ -1,4 +1,3 @@
-# client.py
 import socket
 
 # Define server IP and port
@@ -12,12 +11,17 @@ print(f"Connected to the server at {HOST} on port {PORT}")
 
 # Request a file from the server
 file_request = input("Enter the name of the file to request from the server: ")
-client_socket.send(file_request.encode())
+client_socket.send(file_request.encode())  # Send filename as request
 
-# Receive the file content from the server
-file_data = client_socket.recv(4096)
-print("\nReceived from server:")
-print(file_data.decode(errors='ignore'))
+# Open a file to save raw bytes
+with open(f"received_{file_request}", 'wb') as file:
+    while True:
+        file_data = client_socket.recv(4096)
+        if not file_data:
+            break  # Stop receiving when no more data
+        file.write(file_data)  # Write raw bytes to file
+
+print(f"File received and saved as received_{file_request}")
 
 # Close the connection
 client_socket.close()

@@ -1,4 +1,3 @@
-# server.py
 import socket
 
 # Define server IP and port
@@ -18,17 +17,14 @@ while True:
     
     # Receive file request from client
     file_request = conn.recv(1024).decode()
-    print(f"Client requested file: {file_request}")
-    
+
     try:
         with open(file_request, 'rb') as file:
-            file_data = file.read()
-        conn.sendall(file_data)
+            while chunk := file.read(4096):  # Read in chunks
+                conn.sendall(chunk)  # Send raw bytes
         print("File sent successfully")
     except FileNotFoundError:
-        error_message = b"Error: File not found"
-        conn.sendall(error_message)
-        print("File not found error sent to client")
+        conn.sendall(b"ERROR: File not found")  # Send raw error message
     
     conn.close()
     print("Client disconnected. Waiting for the next client...")
