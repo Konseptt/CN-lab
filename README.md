@@ -104,3 +104,44 @@ To set up and run any of the chat server implementations, follow these steps:
    ```bash
    python client1.py
    ```
+
+### Running the `cases` Directory Scripts
+
+The `cases` directory contains scripts for a simple client-server communication example. Follow these steps to run the scripts:
+
+1. Navigate to the `cases` directory:
+   ```bash
+   cd cases
+   ```
+
+2. Run the server script:
+   ```bash
+   python server.py
+   ```
+
+3. In a separate terminal, run the client script:
+   ```bash
+   python client.py
+   ```
+
+#### Details about the `cases/client.py` and `cases/server.py` Scripts
+
+- `cases/client.py`: This script creates a client that connects to the server on port 12000, sends a lowercase message, receives the uppercase response from the server, and then closes the connection.
+- `cases/server.py`: This script creates a server that listens on port 12000, accepts a connection from a client, receives a message, converts it to uppercase, sends the uppercase message back to the client, and then closes the connection.
+
+#### Example for Running the `cases` Directory Scripts
+
+1. Navigate to the `cases` directory:
+   ```bash
+   cd cases
+   ```
+
+2. Run the server script:
+   ```bash
+   python server.py
+   ```
+
+3. In a separate terminal, run the client script:
+   ```bash
+   python client.py
+   ```
