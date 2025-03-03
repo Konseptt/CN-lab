@@ -29,10 +29,14 @@ def handle_client(file_request, client_address):
     
     print(f"Ready for next client request...\n")
 
-while True:
-    # Receive file request from client
-    file_request, client_address = server_socket.recvfrom(1024)
-    
-    # Create a new thread to handle the client
-    client_thread = threading.Thread(target=handle_client, args=(file_request, client_address))
-    client_thread.start()
+def main():
+    while True:
+        # Receive file request from client
+        file_request, client_address = server_socket.recvfrom(1024)
+        
+        # Create a new thread to handle the client
+        client_thread = threading.Thread(target=handle_client, args=(file_request, client_address))
+        client_thread.start()
+
+if __name__ == "__main__":
+    main()
