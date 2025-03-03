@@ -1,3 +1,0 @@
-This is a sample text file for testing the server-client file transfer program.
-It contains multiple lines of text.
-Feel free to modify or use it as needed.

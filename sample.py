@@ -3,7 +3,7 @@
 import os
 
 # Define file name and size
-file_name = "sample.bin"
+file_name = "sample1.bin"
 file_size = 1024  # 1 KB
 
 # Generate random binary data
