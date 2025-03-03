@@ -1,36 +1,29 @@
-# server.py
 import socket
+import os
 
-# Define server IP and port
 HOST = '192.168.56.1'  # Change to your local IP if needed
 PORT = 55
 
-# Create a socket
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))
-server_socket.listen(1)  # Accept one client at a time
+server_socket.listen(1)
 
 print(f"Server listening on {HOST}:{PORT}")
 
 while True:
-    print("Waiting for a client connection...")
     conn, addr = server_socket.accept()
     print(f"Connected to {addr}")
 
-    # Receive file request
     file_request = conn.recv(1024).decode()
-    print(f"Client requested file: {file_request}")
 
-    try:
-        # Read and send file data
-        with open(file_request, "r") as file:
-            file_data = file.read()
-        conn.sendall(file_data.encode())
+    if os.path.exists(file_request):
+        conn.sendall(b"OK")  # Indicate file exists
+        with open(file_request, "rb") as file:
+            while chunk := file.read(4096):  # Read and send in chunks
+                conn.sendall(chunk)
         print("File sent successfully.")
-    except FileNotFoundError:
-        error_message = "Error: File not found"
-        conn.sendall(error_message.encode())
-        print("File not found error sent to client.")
+    else:
+        conn.sendall(b"ERROR")  # Indicate file not found
 
     conn.close()
     print("Connection closed.")
